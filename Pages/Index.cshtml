@@ -1,0 +1,55 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Sudoku Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Sudoku!</h1>
+    <p id="Announcement">@Model.DefaultAnnouncement</p>
+</div>
+<form method="post" id="SudokuForm">
+    <table class="sudoku-grid" id="SudokuTable">
+        <thead>
+            <tr>
+                @{
+                    for (int column = 0; column < 9; column++)
+                    {
+                        <th>
+                            @(column + 1)
+                        </th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                for (int row = 0; row < 9; row++)
+                {
+                    <tr>
+                        @for (int col = 0; col < 9; col++)
+                        {
+                            string _CellID = $"Square{row.ToString()}{col.ToString()}";
+                            if (Model.SudokuNumbers[row][col] == 0)
+                            {
+                                <td>
+                                    <input asp-for="Number" id="@_CellID" min="1" max="9" />
+                                </td>
+                            }
+                            else
+                            {
+                                <td id="@_CellID">
+                                    @Html.DisplayFor(modelItem => Model.SudokuNumbers[row][col])
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</form>
+<div>
+    <br />
+    <input id="Submit" type="button" value="Submit" />
+</div>
